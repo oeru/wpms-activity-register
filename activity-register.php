@@ -28,8 +28,10 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
-
-define('ACTREG_VERSION', '0.0.1');
+// plugin computer name
+define('ACTREG_NAME', 'wpms-activity-register');
+// current version
+define('ACTREG_VERSION', '0.0.2');
 // the path to this file
 define('ACTREG_FILE', __FILE__);
 // absolute URL for this plugin, including site name, e.g.
@@ -47,10 +49,10 @@ define('ACTREG_ADMIN_TITLE', 'Activity Register Settings');
 define('ACTREG_ADMIN_MENU', 'Act Reg Settings');
 // turn on debugging with true, off with false
 define('ACTREG_DEBUG', true);
-define('ACTREG_TABLE', wp_activity_register)
+define('ACTREG_TABLE', 'activity_register');
 
 // include Activity Register API and Auth code
-include_once ACTREG_PATH . '/vendor/autoload.php';
+//include_once ACTREG_PATH . '/vendor/autoload.php';
 // the rest of the app
 require ACTREG_PATH . '/includes/actreg.php';
 
