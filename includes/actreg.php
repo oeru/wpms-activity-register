@@ -79,7 +79,7 @@ class ActivityRegister extends ActivityRegisterBase {
         if($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
             $sql = "CREATE TABLE $table_name (
                 id bigint(20) NOT NULL AUTO_INCREMENT,
-                time datetime NOT NULL DEFAULT now(),
+                time datetime NOT NULL,
                 user_id bigint(20) NOT NULL,
                 site_id smallint(5) NOT NULL,
                 type varchar(255)  NOT NULL DEFAULT '',
@@ -123,6 +123,7 @@ class ActivityRegister extends ActivityRegisterBase {
         $this->log('entry content: '.$user_id .', '.$site_id.', '.$type.', '.$event.', '.$message);
         // insert register entry - returns false if fails, 1 if succeeds
         $response = $wpdb->insert($this->get_tablename(), array(
+            'time' => current_time('mysql', true),
             'user_id' => $user_id,
             'site_id' => $site_id,
             'type' => $type,
