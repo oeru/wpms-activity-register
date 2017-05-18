@@ -65,3 +65,43 @@ if (is_admin() && is_multisite()) {
         array(ActivityRegister::get_instance(), 'init')
     );
 }
+
+// ensure table gets created on activation
+register_activation_hook(__FILE__, 'activate');
+
+
+// runs on activation and upgrade
+function activate() {
+    //$this->log('in Activity Register activate');
+    // create the database table
+    global $wpdb;
+    // we default to the current version to avoid installing updates unnecessarily.
+    $installed_version = get_option(ACTREG_NAME.'_version', ACTREG_VERSION);
+    $charset_collate = $wpdb->get_charset_collate();
+    $table_name = $wpdb->base_prefix . ACTREG_TABLE;
+    //$this->log('charset_collate: '.$charset_collate);
+    // set up SQL statement to create the table
+    if($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
+        $sql = "CREATE TABLE $table_name (
+            id bigint(20) NOT NULL AUTO_INCREMENT,
+            time datetime NOT NULL DEFAULT now(),
+            user_id bigint(20) NOT NULL,
+            site_id smallint(5) NOT NULL,
+            type varchar(255)  NOT NULL DEFAULT '',
+            event varchar(255) NOT NULL DEFAULT '',
+            message text NOT NULL DEFAULT '',
+            UNIQUE KEY id (id),
+            KEY user_id (user_id),
+            KEY site_id (site_id),
+            KEY type (type),
+            KEY event (event)
+        ) $charset_collate;";
+    }
+
+    require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+    // submit the query
+    dbDelta( $sql );
+
+    // record the current version of the plugin for future reference
+    add_option(ACTREG_NAME.'_version', ACTREG_VERSION);
+}

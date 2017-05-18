@@ -26,7 +26,7 @@ class ActivityRegister extends ActivityRegisterBase {
         // register all relevant hooks
         $this->register_hooks();
         // create other necessary objects
-        register_activation_hook(ACTREG_FILE, array($this, 'activate'));
+        //register_activation_hook(ACTREG_FILE, array($this, 'activate'));
         // run activate...
         //$this->activate();
         register_deactivation_hook(ACTREG_FILE, array($this, 'deactivate'));
@@ -76,20 +76,22 @@ class ActivityRegister extends ActivityRegisterBase {
         $table_name = $this->get_tablename();
         //$this->log('charset_collate: '.$charset_collate);
         // set up SQL statement to create the table
-        $sql = "CREATE TABLE IF NOT EXISTS $table_name (
-            id bigint(20) NOT NULL AUTO_INCREMENT,
-            time datetime NOT NULL DEFAULT now(),
-            user_id bigint(20) NOT NULL,
-            site_id smallint(5) NOT NULL,
-            type varchar(255)  NOT NULL DEFAULT '',
-            event varchar(255) NOT NULL DEFAULT '',
-            message text NOT NULL DEFAULT '',
-            UNIQUE KEY id (id),
-            KEY user_id (user_id),
-            KEY site_id (site_id),
-            KEY type (type),
-            KEY event (event)
-        ) $charset_collate;";
+        if($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
+            $sql = "CREATE TABLE $table_name (
+                id bigint(20) NOT NULL AUTO_INCREMENT,
+                time datetime NOT NULL DEFAULT now(),
+                user_id bigint(20) NOT NULL,
+                site_id smallint(5) NOT NULL,
+                type varchar(255)  NOT NULL DEFAULT '',
+                event varchar(255) NOT NULL DEFAULT '',
+                message text NOT NULL DEFAULT '',
+                UNIQUE KEY id (id),
+                KEY user_id (user_id),
+                KEY site_id (site_id),
+                KEY type (type),
+                KEY event (event)
+            ) $charset_collate;";
+        }
 
         require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
         // submit the query
