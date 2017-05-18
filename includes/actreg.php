@@ -82,14 +82,13 @@ class ActivityRegister extends ActivityRegisterBase {
                 time datetime NOT NULL,
                 user_id bigint(20) NOT NULL,
                 site_id smallint(5) NOT NULL,
-                type varchar(255)  NOT NULL DEFAULT '',
+                type varchar(100)  NOT NULL DEFAULT '',
                 event varchar(255) NOT NULL DEFAULT '',
                 message text NOT NULL DEFAULT '',
                 UNIQUE KEY id (id),
                 KEY user_id (user_id),
                 KEY site_id (site_id),
                 KEY type (type),
-                KEY event (event)
             ) $charset_collate;";
         } else {
             $this->log('table already exists - not changing!');
