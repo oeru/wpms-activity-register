@@ -28,7 +28,7 @@ class ActivityRegister extends ActivityRegisterBase {
         // create other necessary objects
         //register_activation_hook(ACTREG_FILE, array($this, 'activate'));
         // run activate...
-        //$this->activate();
+        $this->activate();
         register_deactivation_hook(ACTREG_FILE, array($this, 'deactivate'));
     }
 
@@ -91,6 +91,8 @@ class ActivityRegister extends ActivityRegisterBase {
                 KEY type (type),
                 KEY event (event)
             ) $charset_collate;";
+        } else {
+            $this->log('table already exists - not changing!');
         }
 
         require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
