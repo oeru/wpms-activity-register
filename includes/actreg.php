@@ -88,7 +88,7 @@ class ActivityRegister extends ActivityRegisterBase {
                 UNIQUE KEY id (id),
                 KEY user_id (user_id),
                 KEY site_id (site_id),
-                KEY type (type),
+                KEY type (type)
             ) $charset_collate;";
         } else {
             $this->log('table already exists - not changing!');
