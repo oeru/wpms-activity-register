@@ -90,14 +90,12 @@ class ActivityRegister extends ActivityRegisterBase {
                 KEY site_id (site_id),
                 KEY type (type)
             ) $charset_collate;";
+            require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+            // submit the query
+            dbDelta( $sql );
         } else {
             $this->log('table already exists - not changing!');
         }
-
-        require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-        // submit the query
-        dbDelta( $sql );
-
         // record the current version of the plugin for future reference
         add_option(ACTREG_NAME.'_version', ACTREG_VERSION);
     }
@@ -283,15 +281,15 @@ class ActivityRegister extends ActivityRegisterBase {
         $this->site_name($blog_id).' (id '.$blog_id.') with '.$role.' role.');
     }
 
-	/**
-	 * Fires before a user is removed from a site.
-	 *
-	 * @since MU
-	 *
-	 * @param int $user_id User ID.
-	 * @param int $blog_id Blog ID.
-	 */
-	public function remove_user_from_site($user_id, $blog_id) {
+    /**
+     * Fires before a user is removed from a site.
+     *
+     * @since MU
+     *
+     * @param int $user_id User ID.
+     * @param int $blog_id Blog ID.
+     */
+	  public function remove_user_from_site($user_id, $blog_id) {
         $this->log('in hook remove_user_from_site');
         $this->entry($user_id, $blog_id, 'Site User', 'Remove User from Site', 'User '.
             $this->user_name($user_id).' (id '.$user_id.') removed from site '.

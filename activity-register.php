@@ -48,7 +48,7 @@ define('ACTREG_ADMIN_SLUG', 'actreg_settings');
 define('ACTREG_ADMIN_TITLE', 'Activity Register Settings');
 define('ACTREG_ADMIN_MENU', 'Act Reg Settings');
 // turn on debugging with true, off with false
-define('ACTREG_DEBUG', true);
+define('ACTREG_DEBUG', false);
 define('ACTREG_TABLE', 'activity_register');
 
 // include Activity Register API and Auth code
